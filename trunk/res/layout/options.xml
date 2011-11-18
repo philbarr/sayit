@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">                                                    
+                                                                                                                                 
+    <PreferenceCategory                                                                                                          
+        android:title="Control the Speech parameters"                                                                                           
+        android:key="first_category">                                                                                            
+                                                                                                                                 
+        <com.simplyapped.sayit.preferences.SeekBarPreference
+            android:defaultValue="9"
+            android:dialogMessage="Speech speed"
+            android:key="speech_speed"
+            android:max="29"
+            android:summary="The speed of the speech"
+            android:text=" "
+            android:title="Speech speed" />                                                                                                                     
+        
+        <com.simplyapped.sayit.preferences.SeekBarPreference
+            android:defaultValue="9"
+            android:dialogMessage="Media Volume"
+            android:key="volume"
+            android:max="29"
+            android:summary="Media Volume"
+            android:text=" "
+            android:title="Media Volume" /> 
+        
+        <com.simplyapped.sayit.preferences.SeekBarPreference
+            android:defaultValue="9"
+            android:dialogMessage="Pitch"
+            android:key="pitch"
+            android:max="29"
+            android:summary="Pitch"
+            android:text=" "
+            android:title="Pitch" /> 
+    </PreferenceCategory>                                                                                                                                                                                                            
+</PreferenceScreen>                                                                                                              
