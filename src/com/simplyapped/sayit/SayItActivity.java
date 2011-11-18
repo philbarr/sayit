@@ -64,9 +64,24 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-	    MenuItem item = menu.add("Options");
-	    item.setIcon(R.drawable.options);
-	    item.setIntent(new Intent(this,OptionsActivity.class));
+	    MenuItem options = menu.add(R.string.options);
+	    options.setIcon(R.drawable.options);
+	    options.setIntent(new Intent(this,OptionsActivity.class));
+	    
+	    MenuItem save = menu.add(R.string.save);
+	    save.setIcon(R.drawable.save);
+	    save.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			public boolean onMenuItemClick(MenuItem item) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+	    
+	    MenuItem view = menu.add(R.string.view_stored_phrases);
+	    view.setIcon(R.drawable.view);
+	    
+	    
 	    return super.onCreateOptionsMenu(menu);
     }
 	
