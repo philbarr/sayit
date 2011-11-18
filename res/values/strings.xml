@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, SayItActivity!</string>
+    <string name="app_name">Say It!</string>
+    <string name="options_label">Options</string>
+</resources>
