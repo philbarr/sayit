@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SayItActivity extends Activity implements OnClickListener, OnInitListener {
 	private EditText messageText;
@@ -27,7 +29,7 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		setContentView(R.layout.main);
 		messageText = (EditText) this.findViewById(R.id.messageText);
 		this.findViewById(R.id.button1).setOnClickListener(this);
-		
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -35,14 +37,21 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	}
 
 	public void onClick(View v) {
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_MUSIC));
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		int speed = sharedPrefs.getInt("speech_speed", 10);
-		mTts.setSpeechRate((speed + 1) / 10f);
-		int pitch = sharedPrefs.getInt("pitch", 10);
-		mTts.setPitch((pitch + 1) / 10f);
-		mTts.speak(messageText.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+		try {
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put(TextToSpeech.Engine.KEY_PARAM_STREAM,
+					String.valueOf(AudioManager.STREAM_MUSIC));
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			int speed = sharedPrefs.getInt("speech_speed", 9);
+			mTts.setSpeechRate((speed + 1) / 10f);
+			int pitch = sharedPrefs.getInt("pitch", 9);
+			mTts.setPitch((pitch + 1) / 10f);
+			mTts.speak(messageText.getText().toString(),
+					TextToSpeech.QUEUE_FLUSH, null);
+		} catch (Exception e) {
+			Toast toast = Toast.makeText(this, "Unable to talk! Please allow the Text To Speech Engine to install from Android Market and then restart this application", Toast.LENGTH_LONG);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+		}
 	}
 	
     protected void onActivityResult(
@@ -68,18 +77,18 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	    options.setIcon(R.drawable.options);
 	    options.setIntent(new Intent(this,OptionsActivity.class));
 	    
-	    MenuItem save = menu.add(R.string.save);
-	    save.setIcon(R.drawable.save);
-	    save.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-			
-			public boolean onMenuItemClick(MenuItem item) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
-	    
-	    MenuItem view = menu.add(R.string.view_stored_phrases);
-	    view.setIcon(R.drawable.view);
+//	    MenuItem save = menu.add(R.string.save);
+//	    save.setIcon(R.drawable.save);
+//	    save.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//			
+//			public boolean onMenuItemClick(MenuItem item) {
+//				// TODO Auto-generated method stub
+//				return false;
+//			}
+//		});
+//	    
+//	    MenuItem view = menu.add(R.string.view_stored_phrases);
+//	    view.setIcon(R.drawable.view);
 	    
 	    
 	    return super.onCreateOptionsMenu(menu);
