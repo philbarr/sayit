@@ -19,8 +19,7 @@ public class OptionsActivity extends PreferenceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		int streamMaxVolume = audioManager
 				.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -28,7 +27,7 @@ public class OptionsActivity extends PreferenceActivity {
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
 		Editor editor = sharedPrefs.edit();
 		editor.putInt("volume", streamVolume);
-		editor.apply();
+		editor.commit();
 
 		addPreferencesFromResource(R.layout.options);
 		
