@@ -7,26 +7,39 @@
     android:orientation="vertical" >
 
     <com.google.ads.AdView
-        android:id="@+id/adView1"
+        android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ads:adSize="BANNER"
         ads:adUnitId="a14eb9742ec9a10"
         ads:loadAdOnCreate="true"
         ads:testDevices="TEST_EMULATOR" />
-    
-    <ListView android:id="@android:id/list"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:background="@drawable/radial"
-               android:layout_weight="1"
-               android:drawSelectorOnTop="false"
-               android:layout_margin="30dp"/>
 
-    <TextView android:id="@android:id/empty"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:background="@drawable/radial"
-               android:text="No Phrases Saved Yet"/>
-    
+    <FrameLayout
+        android:id="@+id/phraselist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:background="#eee"
+        android:layout_margin="30dp">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/radial"
+            android:drawSelectorOnTop="false" />
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/radial"
+            android:text="No\nPhrases\nSaved\nYet" 
+            android:gravity="center_vertical|center_horizontal" 
+            android:textSize="50dp" 
+            android:inputType="textMultiLine"/>
+    </FrameLayout>
+
 </LinearLayout>
