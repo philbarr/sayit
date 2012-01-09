@@ -87,9 +87,9 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 			}
 		});
 	    
-	    MenuItem view = menu.add(R.string.view_stored_phrases);
+	    MenuItem view = menu.add(R.string.view_phrase_list);
 	    view.setIcon(R.drawable.view);
-	    
+	    view.setIntent(new Intent(this,PhraseListActivity.class));
 	    
 	    return super.onCreateOptionsMenu(menu);
     }

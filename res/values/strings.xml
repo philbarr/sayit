@@ -5,6 +5,6 @@
     <string name="options_label">Options</string>
     <string name="options">Options</string>
     <string name="save">Save</string>
-    <string name="view_stored_phrases">View Stored Phrases</string>
+    <string name="view_phrase_list">View Stored Phrases</string>
     <string name="shareprefs">sharePrefs</string>
 </resources>
