@@ -19,16 +19,15 @@
         android:id="@+id/phraselist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:background="#eee"
+        android:background="@drawable/radial"
         android:layout_margin="30dp">
 
         <ListView
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="30dp"
             android:layout_weight="1"
-            android:background="@drawable/radial"
+            android:gravity="center_vertical|center_horizontal" 
             android:drawSelectorOnTop="false" />
 
         <TextView
