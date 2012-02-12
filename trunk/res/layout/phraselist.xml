@@ -19,7 +19,8 @@
         android:id="@+id/phraselist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:background="@drawable/radial"
+        android:background="@drawable/border"
+        android:padding="25px"
         android:layout_margin="30dp">
 
         <ListView
@@ -27,14 +28,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal" 
+            android:gravity="center_vertical|center_horizontal"
+            android:listSelector="#888888" 
             android:drawSelectorOnTop="false" />
 
         <TextView
             android:id="@android:id/empty"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/radial"
             android:text="No\nPhrases\nSaved\nYet" 
             android:gravity="center_vertical|center_horizontal" 
             android:textSize="50dp" 
