@@ -4,14 +4,16 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Gravity;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.simplyapped.sayit.alert.ErrorMessage;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
 
@@ -62,6 +65,7 @@ public class PhraseListActivity extends ListActivity implements OnInitListener {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == MY_DATA_CHECK_CODE) {
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				// success, create the TTS instance
@@ -88,9 +92,14 @@ public class PhraseListActivity extends ListActivity implements OnInitListener {
 			
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				SQLiteDatabase db = database.getWritableDatabase();
-				db.delete(Database.TABLE_PHRASES, Database.COLUMN_ID + "=?", new String[]{String.valueOf(itemId)});
-				mCursor.requery();
+				try {
+					SQLiteDatabase db = database.getWritableDatabase();
+					db.delete(Database.TABLE_PHRASES, Database.COLUMN_ID + "=?", new String[]{String.valueOf(itemId)});
+					mCursor.requery();
+					db.close();
+				} catch (Exception e) {
+					new ErrorMessage(PhraseListActivity.this, "Error", getString(R.string.error_failed_to_delete_phrase), e).logAndDisplay();
+				}
 				return true;
 			}
 		});
@@ -107,17 +116,34 @@ public class PhraseListActivity extends ListActivity implements OnInitListener {
 			String text = cursor.getString(0);
 			cursor.close();
 			speech.play(text);
-		} catch (Exception e) {
+		} 
+		catch (SQLiteException sqle)
+		{
+			new ErrorMessage(PhraseListActivity.this, "Error", getString(R.string.error_could_not_get_phrase)).logAndDisplay();
+		}
+		catch (Exception e) {
 			Toast toast = Toast
 					.makeText(
 							this,
-							"Unable to talk! Please allow the Text To Speech Engine to install from Android Market and then restart this application",
+							R.string.error_unable_to_talk,
 							Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
 		}
 	}
 	
 	@Override
 	public void onInit(int arg0) {
 	}
+	
+	@Override
+	protected void onDestroy() {
+	    if(mTts != null) {
+	        mTts.stop();
+	        mTts.shutdown();
+	        Log.d(PhraseListActivity.class.getName(), "TTS Destroyed");
+	    }
+	    super.onDestroy();
+	}
+
 }

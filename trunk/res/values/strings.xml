@@ -9,4 +9,8 @@
     <string name="shareprefs">sharePrefs</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="error_failed_to_delete_phrase">Failed to delete phrase</string>
+    <string name="error_unable_to_talk">Unable to talk! Please allow the Text To Speech Engine to install from Android Market and then restart this application</string>
+    <string name="error_could_not_get_phrase">Could not get phrase from database</string>
+    <string name="error_failed_to_insert_phrase">Failed to insert phrase into database. The phone may be running out of space.</string>
 </resources>
