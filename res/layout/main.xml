@@ -18,10 +18,10 @@
     <EditText
         android:id="@+id/messageText"
         android:background="@drawable/border_white"
-        android:padding="50px"
+        android:padding="40dp"
         android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:layout_margin="10dip"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
         android:layout_weight="2" >
     </EditText>
 

@@ -32,10 +32,5 @@
             android:text=" "
             android:title="Pitch" /> 
             
-        <CheckBoxPreference
-            android:title="Save Options With Phrase"
-            android:defaultValue="false"
-            android:summary="Determines whether the speech speed and pitch are stored along with the text on a Save"
-            android:key="savePrefsWithPhrase" />
     </PreferenceCategory>                                                                                                                                                                                                            
 </PreferenceScreen>                                                                                                              
