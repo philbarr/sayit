@@ -96,7 +96,6 @@ public class PhraseListActivity extends ListActivity implements OnInitListener {
 					SQLiteDatabase db = database.getWritableDatabase();
 					db.delete(Database.TABLE_PHRASES, Database.COLUMN_ID + "=?", new String[]{String.valueOf(itemId)});
 					mCursor.requery();
-					db.close();
 				} catch (Exception e) {
 					new ErrorMessage(PhraseListActivity.this, "Error", getString(R.string.error_failed_to_delete_phrase), e).logAndDisplay();
 				}
