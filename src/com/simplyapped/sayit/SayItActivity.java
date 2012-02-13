@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.simplyapped.sayit.alert.ErrorMessage;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
 
@@ -48,14 +50,16 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 			Toast toast = Toast
 					.makeText(
 							this,
-							"Unable to talk! Please allow the Text To Speech Engine to install from Android Market and then restart this application",
+							R.string.error_unable_to_talk,
 							Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
 		}
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == MY_DATA_CHECK_CODE) {
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				// success, create the TTS instance
@@ -84,9 +88,15 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 			public boolean onMenuItemClick(MenuItem item) {
 				if (messageText.getText() != null && messageText.getText().length() > 0)
 				{
-					ContentValues values = new ContentValues();
-					values.put(Database.COLUMN_PHRASES, messageText.getText().toString());
-					database.getWritableDatabase().insert(Database.TABLE_PHRASES, null, values);
+					try
+					{
+						ContentValues values = new ContentValues();
+						values.put(Database.COLUMN_PHRASES, messageText.getText().toString());
+						database.getWritableDatabase().insert(Database.TABLE_PHRASES, null, values);
+					} catch (Exception e)
+					{
+						new ErrorMessage(SayItActivity.this, "Error", getString(R.string.error_failed_to_insert_phrase),e);
+					}
 				}
 				return true;
 			}
@@ -101,11 +111,12 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-		if (mTts != null)
-		{
-			mTts.shutdown();
-		}
+	    if(mTts != null) {
+	        mTts.stop();
+	        mTts.shutdown();
+	        Log.d(SayItActivity.class.getName(), "TTS Destroyed");
+	    }
+	    super.onDestroy();
 	}
 
 	public void onInit(int arg0) {
