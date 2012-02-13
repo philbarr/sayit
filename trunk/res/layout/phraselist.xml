@@ -29,14 +29,16 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:listSelector="#888888" 
+            android:listSelector="@drawable/list_selector" 
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:drawSelectorOnTop="false" />
 
         <TextView
             android:id="@android:id/empty"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="No\nPhrases\nSaved\nYet" 
+            android:text="No\nSaved\nPhrases" 
             android:gravity="center_vertical|center_horizontal" 
             android:textSize="50dp" 
             android:inputType="textMultiLine"/>
