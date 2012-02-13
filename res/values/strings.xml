@@ -7,4 +7,6 @@
     <string name="save">Save</string>
     <string name="view_phrase_list">View Stored Phrases</string>
     <string name="shareprefs">sharePrefs</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

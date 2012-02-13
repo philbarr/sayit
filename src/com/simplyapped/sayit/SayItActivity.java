@@ -19,8 +19,7 @@ import android.widget.Toast;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
 
-public class SayItActivity extends Activity implements OnClickListener,
-		OnInitListener {
+public class SayItActivity extends Activity implements OnClickListener, OnInitListener {
 	private EditText messageText;
 	private static final int MY_DATA_CHECK_CODE = 0;
 	private TextToSpeech mTts;
@@ -55,6 +54,7 @@ public class SayItActivity extends Activity implements OnClickListener,
 		}
 	}
 
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == MY_DATA_CHECK_CODE) {
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
