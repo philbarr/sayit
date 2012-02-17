@@ -33,6 +33,7 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		messageText = (EditText) this.findViewById(R.id.messageText);
+		messageText.requestFocus();
 		this.findViewById(R.id.button1).setOnClickListener(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -93,6 +94,13 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 						ContentValues values = new ContentValues();
 						values.put(Database.COLUMN_PHRASES, messageText.getText().toString());
 						database.getWritableDatabase().insert(Database.TABLE_PHRASES, null, values);
+						Toast toast = Toast
+								.makeText(
+										SayItActivity.this,
+										R.string.message_saved_success,
+										Toast.LENGTH_LONG);
+						toast.setGravity(Gravity.CENTER, 0, 0);
+						toast.show();
 					} catch (Exception e)
 					{
 						new ErrorMessage(SayItActivity.this, "Error", getString(R.string.error_failed_to_insert_phrase),e);
