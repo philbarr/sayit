@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, SayItActivity!</string>
+    <string name="app_name">Say It!</string>
+    <string name="options_label">Options</string>
+    <string name="options">Options</string>
+    <string name="save">Save</string>
+    <string name="view_phrase_list">View Stored Phrases</string>
+    <string name="shareprefs">sharePrefs</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="error_failed_to_delete_phrase">Failed to delete phrase</string>
+    <string name="error_unable_to_talk">Unable to talk! Please allow the Text To Speech Engine to install from Android Market and then restart this application</string>
+    <string name="error_could_not_get_phrase">Could not get phrase from database</string>
+    <string name="error_failed_to_insert_phrase">Failed to insert phrase into database. The phone may be running out of space.</string>
+    <string name="message_saved_success">Message Saved!</string>
+</resources>
