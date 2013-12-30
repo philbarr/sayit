@@ -14,4 +14,6 @@
     <string name="error_could_not_get_phrase">Could not get phrase from database</string>
     <string name="error_failed_to_insert_phrase">Failed to insert phrase into database. The phone may be running out of space.</string>
     <string name="message_saved_success">Message Saved!</string>
+    <string name="menu_clear">Clear</string>
+    <string name="error_failed_to_clear">Failed to clear phrase</string>
 </resources>
