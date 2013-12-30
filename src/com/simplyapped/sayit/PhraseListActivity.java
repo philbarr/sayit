@@ -15,6 +15,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.simplyapped.sayit.alert.ErrorMessage;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
@@ -36,12 +39,18 @@ public class PhraseListActivity extends ListActivity implements OnInitListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.phraselist);
 		registerForContextMenu(getListView());
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 		database = new Database(this);
+		
+	    // Look up the AdView as a resource and load a request.
+	    AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    adView.loadAd(adRequest);
 
 		mCursor = database.getWritableDatabase().query(Database.TABLE_PHRASES, new String[]{Database.COLUMN_ID, Database.COLUMN_PHRASES}, null, null, null, null, null);
         startManagingCursor(mCursor);
