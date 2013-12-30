@@ -17,6 +17,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.simplyapped.sayit.alert.ErrorMessage;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
@@ -38,6 +40,12 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		database = new Database(this);
+
+		
+	    // Look up the AdView as a resource and load a request.
+	    AdView adView = (AdView)this.findViewById(R.id.adView);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    adView.loadAd(adRequest);
 
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -78,6 +86,24 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuItem clear = menu.add(R.string.menu_clear);
+		clear.setIcon(R.drawable.refresh);
+		clear.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				try {
+					if (messageText.getText() != null)
+					{
+						messageText.setText("");
+					}
+				} catch (Exception e) {
+					new ErrorMessage(SayItActivity.this, "Error", getString(R.string.error_failed_to_clear),e).logAndDisplay();
+				}
+				return true;
+			}
+		});
+		
 		MenuItem options = menu.add(R.string.options);
 		options.setIcon(R.drawable.options);
 		options.setIntent(new Intent(this, OptionsActivity.class));
@@ -103,7 +129,7 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 						toast.show();
 					} catch (Exception e)
 					{
-						new ErrorMessage(SayItActivity.this, "Error", getString(R.string.error_failed_to_insert_phrase),e);
+						new ErrorMessage(SayItActivity.this, "Error", getString(R.string.error_failed_to_insert_phrase),e).logAndDisplay();
 					}
 				}
 				return true;
