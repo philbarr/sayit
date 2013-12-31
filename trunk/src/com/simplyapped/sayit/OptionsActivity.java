@@ -31,8 +31,7 @@ public class OptionsActivity extends PreferenceActivity {
 
 		addPreferencesFromResource(R.layout.options);
 		
-		SeekBarPreference pref = (SeekBarPreference) this
-				.findPreference("volume");
+		SeekBarPreference pref = (SeekBarPreference) this.findPreference("volume");
 		pref.setMax(streamMaxVolume);
 		pref.setProgress(streamVolume);
 

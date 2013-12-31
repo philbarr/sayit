@@ -18,11 +18,13 @@
         android:background="@drawable/border_white"
         android:padding="40dp"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="2" 
-        android:inputType="text"
-        android:imeOptions="actionNone">
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:imeOptions="actionNone"
+        android:textColor="@color/black">
     </EditText>
 
     <Button
