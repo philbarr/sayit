@@ -3,12 +3,14 @@ package com.simplyapped.sayit;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +36,7 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		messageText = (EditText) this.findViewById(R.id.messageText);
@@ -43,7 +46,6 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 
 		database = new Database(this);
 
-		
 	    // Look up the AdView as a resource and load a request.
 	    AdView adView = (AdView)this.findViewById(R.id.adView);
 	    AdRequest adRequest = new AdRequest.Builder().build();
@@ -52,6 +54,8 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+		
+		
 	}
 
 	public void onClick(View v) {
@@ -75,12 +79,12 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				// success, create the TTS instance
 				mTts = new TextToSpeech(this, this);
-				speech = new Speech(PreferenceManager.getDefaultSharedPreferences(this), mTts);
+				SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+				speech = new Speech(defaultSharedPreferences, mTts);
 			} else {
 				// missing data, install it
 				Intent installIntent = new Intent();
-				installIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 				startActivity(installIntent);
 			}
 		}
@@ -145,6 +149,14 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		int fontSize = defaultSharedPreferences.getInt("font_size", 16);
+		messageText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,fontSize);
+	}
+	
 	@Override
 	protected void onDestroy() {
 	    if(mTts != null) {
