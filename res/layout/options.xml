@@ -33,10 +33,10 @@
             android:title="Pitch" /> 
         
         <com.simplyapped.sayit.preferences.SeekBarPreference
-            android:defaultValue="16"
+            android:defaultValue="24"
             android:dialogMessage="Font Size"
             android:key="font_size"
-            android:max="50"
+            android:max="60"
             android:summary="Font Size"
             android:text=" "
             android:title="Font Size" /> 

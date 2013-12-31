@@ -153,8 +153,8 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int fontSize = defaultSharedPreferences.getInt("font_size", 16);
-		messageText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,fontSize);
+		int fontSize = defaultSharedPreferences.getInt("font_size", 24);
+		messageText.setTextSize(TypedValue.COMPLEX_UNIT_DIP,fontSize + 5);
 	}
 	
 	@Override
