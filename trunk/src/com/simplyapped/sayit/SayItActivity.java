@@ -20,8 +20,13 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amazon.device.ads.AdError;
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdRegistration;
+import com.amazon.device.ads.AdTargetingOptions;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.simplyapped.sayit.ads.AmazonAdListenerAdapter;
 import com.simplyapped.sayit.alert.ErrorMessage;
 import com.simplyapped.sayit.db.Database;
 import com.simplyapped.sayit.speech.Speech;
@@ -32,6 +37,29 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	private TextToSpeech mTts;
 	private Database database;
 	private Speech speech;
+	private AdLayout amazonAdView;
+	
+	private class AdSwitcher extends AmazonAdListenerAdapter{
+		
+		private Activity activity;
+
+		public AdSwitcher(Activity activity){
+			this.activity = activity;}
+		
+		@Override
+		public void onAdFailedToLoad(AdLayout layout, AdError error) {
+			// ADMOB ADS VIEW AND REQUESTS
+		    // Look up the AdView as a resource and load a request.
+		    AdView adView = (AdView)this.activity.findViewById(R.id.adView);
+		    AdRequest adRequest = new AdRequest.Builder().build();
+		    adView.loadAd(adRequest);
+		    if (SayItActivity.this.amazonAdView != null)
+		    {
+		    	SayItActivity.this.amazonAdView.destroy();
+		    }
+		    Log.d(SayItActivity.class.toString(), "Amazon ADs failed to load using Admob ads: " + error.getMessage());
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,23 +67,28 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		AdRegistration.enableTesting(true);
+		AdRegistration.enableLogging(true);
+		AdRegistration.setAppKey("c49158f88fd44739916949cc0f5448f9");
+
+		
 		messageText = (EditText) this.findViewById(R.id.messageText);
 		messageText.requestFocus();
 		this.findViewById(R.id.button1).setOnClickListener(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		database = new Database(this);
-
-	    // Look up the AdView as a resource and load a request.
-	    AdView adView = (AdView)this.findViewById(R.id.adView);
-	    AdRequest adRequest = new AdRequest.Builder().build();
-	    adView.loadAd(adRequest);
-
+		
+		/** AMAZON ADS VIEW AND REQUESTS */
+		this.amazonAdView = (AdLayout) findViewById(R.id.amazonadview);
+		this.amazonAdView.setListener(new AdSwitcher(this));
+		this.amazonAdView.loadAd(new AdTargetingOptions()); // This AsyncTask retrieves an ad
+		
+		// make a request for the speech engine
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
-		
-		
 	}
 
 	public void onClick(View v) {
@@ -165,6 +198,10 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 	        Log.d(SayItActivity.class.getName(), "TTS Destroyed");
 	    }
 	    super.onDestroy();
+	    if (this.amazonAdView != null)
+	    {
+	    	this.amazonAdView.destroy();
+	    }
 	}
 
 	public void onInit(int arg0) {
