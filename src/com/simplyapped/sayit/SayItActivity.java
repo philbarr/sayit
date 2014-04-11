@@ -78,7 +78,7 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		this.findViewById(R.id.button1).setOnClickListener(this);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		database = new Database(this);
+		database = new Database(this); 
 		
 		/** AMAZON ADS VIEW AND REQUESTS */
 		this.amazonAdView = (AdLayout) findViewById(R.id.amazonadview);
