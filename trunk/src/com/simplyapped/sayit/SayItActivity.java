@@ -68,8 +68,8 @@ public class SayItActivity extends Activity implements OnClickListener, OnInitLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-//		AdRegistration.enableTesting(true);
-//		AdRegistration.enableLogging(true);
+		AdRegistration.enableTesting(true);
+		AdRegistration.enableLogging(true);
 		AdRegistration.setAppKey("c49158f88fd44739916949cc0f5448f9");
 
 		
